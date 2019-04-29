@@ -7,8 +7,8 @@ public class App {
 
         Ahorcado ahorcado = new Ahorcado(3);
         ahorcado.cargarJugadores();
-
         Jugador ganador = ahorcado.comenzar();
+
         String msj = (ganador!=null) ? "Ganador: "+ganador.getNombre()+ "\nPalabra "+ganador.getPalabraCompleta() : "No hay ganador";
         System.out.println(msj);
 
