@@ -1,7 +1,7 @@
 # TP-Ahorcado
 Diferencia entre runnable y thread:
 
-- Cada hilo creado de extends Thread crea un objeto único para él y se asocia con ese objeto. Por otro lado, cada hilo creado al        implementar la interfaz runnable comparte la misma instancia runnable.
+-Cada hilo creado de extends Thread crea un objeto único para él y se asocia con ese objeto. Por otro lado, cada hilo creado al        implementar la interfaz runnable comparte la misma instancia runnable.
 
 -Como cada hilo está asociado con un objeto único cuando se crea al extender de Thread, se requiere más memoria. Por otro lado, cada hilo creado al implementar Runnable comparte el mismo espacio, por lo tanto, requiere menos memoria.
 
