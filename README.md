@@ -14,13 +14,13 @@ Diferencia entre runnable y thread:
 
 Ciclo de vida de un hilo:
 
-Cuando se instancia la clase Thread (o una subclase) se crea un nuevo Thread que está en en su estado inicial ('New Thread'). En este estado es simplemente un objeto más. No existe todavía el thread en ejecución. El único método que puede invocarse sobre él es el método start. 
+Cuando se instancia la clase Thread (o una subclase) se crea un nuevo hilo que está en en su estado inicial ('New Thread'). En este estado es simplemente un objeto más. No existe todavía el thread en ejecución. El único método que puede invocarse sobre él es el método start. 
 
-Cuando se invoca el método start sobre el thread el sistema crea los recursos necesarios, lo planifica (le asigna prioridad) y llama al método run. En este momento el thread está corriendo. 
+Cuando se invoca el método start sobre el hilo el sistema crea los recursos necesarios, lo planifica (le asigna prioridad) y llama al método run. En este momento el hilo está corriendo. 
 
-Si el método run invoca internamente el método sleep o wait o el thread tiene que esperar por una operación de entrada/salida, entonces el thread pasa al estado 'no runnable' (no ejecutable) hasta que la condición de espera finalice. Durante este tiempo el sistema puede ceder control a otros threads activos.
+Si el método run invoca internamente el método sleep o wait o el hilo tiene que esperar por una operación de entrada/salida, entonces el hilo pasa al estado 'no runnable' (no ejecutable) hasta que la condición de espera finalice. Durante este tiempo el sistema puede ceder control a otros hilos activos.
 
-Por último cuando el método run finaliza el thread termina y pasa a la situación 'Dead' (Muerto).
+Por último cuando el método run finaliza el hilo termina y pasa a la situación 'Dead' (Muerto).
 
 Metodos:
 
