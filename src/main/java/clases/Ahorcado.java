@@ -44,10 +44,9 @@ public class Ahorcado {
     }
 
     /**
-     * metodo para comenzar el juego
-     * @return retorna al Jugador que gana la partida completando su palabra o null si no hubo ganador
+     * metodo para comenzar el juego y guardar al ganador en la bd
      */
-    public Jugador comenzar(){
+    public void comenzar(){
 
         System.out.println("PALABRA: "+palabra);
 
@@ -62,32 +61,21 @@ public class Ahorcado {
                 e.printStackTrace();
             }
         }
-        return getGanador();
+        guardarGanadorToDB();
     }
 
     // CONSIDERO QUE SOLO GANA QUIEN COMPLETO LA PALABRA, SI ESTO NO SE CUMPLE NO HAY GANADOR
     /**
-     *
-     * @return Jugador que completo su palabra
+     * Guardo al ganador si lo hubo en la base de datos
      */
-    private Jugador getGanador(){
+    private void guardarGanadorToDB(){
 
         for (Jugador j : jugadores){
             if (j.getPalabra().equals("")){
 
-                guardarGanadorToDB(j);
-                return j;
+                jugadorDAO.create(j);
             }
         }
-        return null;
-    }
-
-    /**
-     * Guardo al ganador si lo hubo en la base de datos
-     * @param jugador
-     */
-    private void guardarGanadorToDB(Jugador jugador){
-        jugadorDAO.create(jugador); // guardo al ganador
     }
 
     /**

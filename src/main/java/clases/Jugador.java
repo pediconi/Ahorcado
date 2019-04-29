@@ -77,6 +77,7 @@ public class Jugador implements Runnable
                     e.printStackTrace();
                 }
             }
+
             this.jugando = true;  //pone jugando = true
 
             String letra = contenedor.getLetra();
@@ -88,6 +89,10 @@ public class Jugador implements Runnable
                 this.puntos--;
             }
 
+            System.out.println("-------------------------------");
+            System.out.println("Jugador: "+this.nombre+ "\nLetra obtenida: " + letra + "\nPalabra: " + this.palabra + "\nPuntos: " + this.puntos);
+            System.out.println("-------------------------------");
+
             if (this.palabra.equals("")){  // osea si GANO
                 System.out.println("GANADOR " +this.getNombre()+" PALABRA: " +palabraCompleta);
                 ejcutando = false;
@@ -95,8 +100,6 @@ public class Jugador implements Runnable
             } else if(this.puntos == 0 ) {
                 System.out.println(this.nombre+" AHORCADO");
             }
-
-            System.out.println("JUGADOR "+ this.nombre + " Letra: " + letra + " -----> " + this.palabra);
 
             this.jugando = false;
             notify();
