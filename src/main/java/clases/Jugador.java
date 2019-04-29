@@ -3,12 +3,12 @@ package clases;
 
 public class Jugador implements Runnable
     {
-        private static boolean enJuego = true;
+        private static boolean ejcutando = true;
 
         private final Contenedor contenedor;
         private final String palabraCompleta;
 
-        private int puntos = 15;
+        private int puntos = 5;
         private String palabra;
         private String nombre;
         private Boolean jugando = Boolean.FALSE;
@@ -44,19 +44,18 @@ public class Jugador implements Runnable
 
         @Override
         /**
-         * Implementación de la hebra
+         * Implementación del run
          */
         public void run()
         {
 
-            while(enJuego && !contenedor.getLista().isEmpty())
+            while(this.getPuntos()>0 && ejcutando && !contenedor.getLista().isEmpty())
             {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
                 this.jugar();
             }
 
@@ -65,16 +64,12 @@ public class Jugador implements Runnable
             }
         }
 
-        private synchronized void jugar()   // sincronized esta dicando que en ese método tenemos una sección crítica del código y por lo tanto los hilos que accedan a dicho método deberán hacerlo de forma síncrona
+        /**
+         * Metodo que ejecuta el turno sincronizado de cada jugador (hilo) y setea su resultado
+         */
+
+        private synchronized void jugar()   // sincronized esta indicando que en ese método tenemos una sección crítica del código y por lo tanto los hilos que accedan a dicho método deberán hacerlo de forma síncrona
         {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            String letra ="";
-
             while(jugando) {   // si esta jugando entra aca y se pone en wait, si no sigue
                 try {
                     wait();
@@ -84,7 +79,7 @@ public class Jugador implements Runnable
             }
             this.jugando = true;  //pone jugando = true
 
-            letra = contenedor.getLetra();
+            String letra = contenedor.getLetra();
 
             if (this.palabra.contains(letra)){
                 this.palabra = this.palabra.replace(letra,"");
@@ -94,14 +89,11 @@ public class Jugador implements Runnable
             }
 
             if (this.palabra.equals("")){  // osea si GANO
-
                 System.out.println("GANADOR " +this.getNombre()+" PALABRA: " +palabraCompleta);
-                enJuego = false;
+                ejcutando = false;
 
             } else if(this.puntos == 0 ) {
-
                 System.out.println(this.nombre+" AHORCADO");
-                Thread.currentThread().interrupt();
             }
 
             System.out.println("JUGADOR "+ this.nombre + " Letra: " + letra + " -----> " + this.palabra);

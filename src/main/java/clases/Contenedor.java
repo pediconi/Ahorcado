@@ -22,8 +22,6 @@ public class Contenedor {
 
     public synchronized String getLetra()
     {
-        String letra = "";
-
         while(ocupado) {
             try {
                 wait();
@@ -32,14 +30,12 @@ public class Contenedor {
             }
         }
         ocupado = true;
-        if (!lista.isEmpty())
-            letra = this.lista.remove(aleatorio.nextInt(this.lista.size()));
 
-        //index =  (index == lista.size()) ? index-1 : index;
+        String letra = (!lista.isEmpty()) ? this.lista.remove(aleatorio.nextInt(this.lista.size())) : "";
+
         ocupado = false;
         notify();
         return letra;
-
     }
 
 
