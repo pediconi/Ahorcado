@@ -1,5 +1,4 @@
 import clases.Ahorcado;
-import clases.Jugador;
 
 public class App {
 

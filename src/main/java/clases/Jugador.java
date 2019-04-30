@@ -5,25 +5,25 @@ public class Jugador implements Runnable
     {
         private static boolean ejcutando = true;
 
-        private final Contenedor contenedor;
-        private final String palabraCompleta;
+        private Juego juego;
 
         private int puntos = 5;
         private String palabra;
+        private StringBuilder palabraToArmar;
         private String nombre;
         private Boolean jugando = Boolean.FALSE;
 
         /**
          * Constructor de la clase
-         * @param contenedor Contenedor común a los consumidores y el productor
+         * @param juego Juego común a los consumidores y el productor
 
          */
-        public Jugador(Contenedor contenedor, String palabra, String nombre)
+        public Jugador(Juego juego, String palabra, String nombre)
         {
-            this.contenedor = contenedor;
+            this.juego = juego;
             this.palabra = palabra;
             this.nombre = nombre;
-            this.palabraCompleta = palabra;
+            this.palabraToArmar = juego.codificarPalabra(new StringBuilder(palabra), palabra.length());
         }
 
         public String getNombre() {
@@ -38,8 +38,32 @@ public class Jugador implements Runnable
             return palabra;
         }
 
-        public String getPalabraCompleta() {
-            return palabraCompleta;
+        public Boolean getJugando() {
+            return jugando;
+        }
+
+        public static void setEjcutando(boolean ejcutando) {
+            Jugador.ejcutando = ejcutando;
+        }
+
+        public void setPuntos(int puntos) {
+            this.puntos = puntos;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public void setJugando(Boolean jugando) {
+            this.jugando = jugando;
+        }
+
+        public StringBuilder getPalabraToArmar() {
+            return palabraToArmar;
+        }
+
+        public void setPalabraToArmar(StringBuilder palabraToArmar) {
+            this.palabraToArmar = palabraToArmar;
         }
 
         @Override
@@ -49,60 +73,20 @@ public class Jugador implements Runnable
         public void run()
         {
 
-            while(this.getPuntos()>0 && ejcutando && !contenedor.getLista().isEmpty())
+            while(this.getPuntos()>0 && ejcutando && !juego.getLista().isEmpty())
             {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                this.jugar();
+
+                juego.jugar(this);
             }
 
-            if(contenedor.getLista().isEmpty()) {
+            if(juego.getLista().isEmpty()) {
                 System.out.println("ABCEDARIO TERMINADO");
             }
-        }
-
-        /**
-         * Metodo que ejecuta el turno sincronizado de cada jugador (hilo) y setea su resultado
-         */
-
-        private synchronized void jugar()   // sincronized esta indicando que en ese método tenemos una sección crítica del código y por lo tanto los hilos que accedan a dicho método deberán hacerlo de forma síncrona
-        {
-            while(jugando) {   // si esta jugando entra aca y se pone en wait, si no sigue
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            this.jugando = true;  //pone jugando = true
-
-            String letra = contenedor.getLetra();
-
-            if (this.palabra.contains(letra)){
-                this.palabra = this.palabra.replace(letra,"");
-
-            }else{
-                this.puntos--;
-            }
-
-            System.out.println("-------------------------------");
-            System.out.println("Jugador: "+this.nombre+ "\nLetra obtenida: " + letra + "\nPalabra: " + this.palabra + "\nPuntos: " + this.puntos);
-            System.out.println("-------------------------------");
-
-            if (this.palabra.equals("")){  // osea si GANO
-                System.out.println("GANADOR " +this.getNombre()+" PALABRA: " +palabraCompleta);
-                ejcutando = false;
-
-            } else if(this.puntos == 0 ) {
-                System.out.println(this.nombre+" AHORCADO");
-            }
-
-            this.jugando = false;
-            notify();
         }
 
     }

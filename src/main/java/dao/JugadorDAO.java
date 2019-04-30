@@ -26,7 +26,7 @@ public class JugadorDAO implements Crud {
             statement.setInt(1,0 );
             statement.setString(2, jugador.getNombre());
             statement.setDate(3, new java.sql.Date(Calendar.getInstance().getTime().getTime()));
-            statement.setString(4, jugador.getPalabraCompleta());
+            statement.setString(4, jugador.getPalabra());
 
             int executeUpdate = statement.executeUpdate();
 

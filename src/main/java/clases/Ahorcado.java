@@ -19,12 +19,12 @@ public class Ahorcado {
     private String palabra;
     private Scanner sc = new Scanner(System.in);
     private JugadorDAO jugadorDAO = new JugadorDAO();
-    private static Contenedor contenedor;
+    private static Juego juego;
 
 
     public Ahorcado(int cantJugadores) {
 
-        contenedor = new Contenedor();
+        juego = new Juego();
         this.cantJugadores = cantJugadores;
         this.palabra = getPalabraAleatoriaFromDB();
     }
@@ -38,7 +38,7 @@ public class Ahorcado {
 
             System.out.println("Nombre jugador "+i+":");
 
-            jugadores.add(new Jugador(contenedor, palabra, sc.nextLine()));
+            jugadores.add(new Jugador(juego, palabra, sc.nextLine()));
             hilos.add( new Thread(jugadores.get(i)));
         }
     }
@@ -71,7 +71,7 @@ public class Ahorcado {
     private void guardarGanadorToDB(){
 
         for (Jugador j : jugadores){
-            if (j.getPalabra().equals("")){
+            if (j.getPalabraToArmar().toString().equals(j.getPalabra())){
 
                 jugadorDAO.create(j);
             }
